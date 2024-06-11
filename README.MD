@@ -13,7 +13,7 @@ $ docker build -t simply-ws-dev .
 ### Start the service
 
 ```
-docker run -it --rm -p 8080:8080 simply-ws-dev
+$ docker run -it --rm -p 8080:8080 simply-ws-dev
 ```
 
 ### Try the service
