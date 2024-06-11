@@ -80,6 +80,7 @@ func NewGetEntitiesRequestParams() *GetEntitiesRequestParams {
 	return &GetEntitiesRequestParams{
 		EntitiesPerPage:    1,
 		NumberOfLastPrices: 3,
+		Page:               1,
 	}
 }
 

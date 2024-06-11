@@ -7,7 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
-	"net/url"
 	"strings"
 	"testing"
 )
@@ -20,6 +19,7 @@ func TestHandleIncludeLastSet(t *testing.T) {
 		IsIncludeLastPrices: true,
 		NumberOfLastPrices:  3,
 		EntitiesPerPage:     1,
+		Page:                1,
 	}
 
 	mockDataProvider.On("GetEntities", dbParams).
@@ -39,9 +39,6 @@ func TestHandleIncludeLastSet(t *testing.T) {
 
 	request := &http.Request{
 		Method: "POST",
-		URL: &url.URL{
-			RawQuery: "include_last=true",
-		},
 		Body: asReader(`{
 					"include_last_prices": true
 				}`),
@@ -57,7 +54,8 @@ func TestHandleIncludeLastSet(t *testing.T) {
 	mockResponseWriter.
 		On("WriteHeader", http.StatusOK)
 	mockResponseWriter.
-		On("Write", []byte("[{\"name\":\"RIO\",\"symbol\":\"\",\"snowflake\":0},{\"name\":\"BHP\",\"symbol\":\"\",\"snowflake\":0}]\n")).
+		On("Write", []byte("[{\"name\":\"RIO\",\"symbol\":\"\",\"snowflake\":0},"+
+			"{\"name\":\"BHP\",\"symbol\":\"\",\"snowflake\":0}]\n")).
 		Return(0, nil)
 
 	// test it now
@@ -83,6 +81,7 @@ func TestHandleIncludeLastUnset(t *testing.T) {
 		IsIncludeLastPrices: false,
 		NumberOfLastPrices:  3,
 		EntitiesPerPage:     1,
+		Page:                1,
 	}
 
 	mockDataProvider.On("GetEntities", dbParams).
