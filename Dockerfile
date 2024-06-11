@@ -1,4 +1,4 @@
-FROM simply-ws-dev:latest
+FROM golang:bullseye
 
 COPY . ./simply-ws
 WORKDIR ./simply-ws
