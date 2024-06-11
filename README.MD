@@ -19,5 +19,12 @@ docker run -it --rm -p 8080:8080 simply-ws-dev
 ### Try the service
 
 ```
-$ curl -X POST 'http://localhost:8080/entities?include_last=true'
+$ curl -X POST http://localhost:8080/entities \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "include_last_prices": true,
+	"number_of_last_prices": 3,
+	"page":               1,
+	"entities_per_page":    2
+}'
 ```
