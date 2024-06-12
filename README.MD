@@ -21,10 +21,16 @@ $ docker run -it --rm -p 8080:8080 simply-ws-dev
 ```
 $ curl -X POST http://localhost:8080/entities \
     -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer 8af4cc4fbf1eb641b14aeb7235bc7509' \
     -d '{
     "include_last_prices": true,
-	"number_of_last_prices": 3,
+	"number_of_last_prices": 1,
 	"page":               1,
 	"entities_per_page":    2
 }'
 ```
+
+### Authorization
+
+The service requires an authorization token `8af4cc4fbf1eb641b14aeb7235bc7509` for the purposes of basic authorization.
+No other tokens are issued by the service.

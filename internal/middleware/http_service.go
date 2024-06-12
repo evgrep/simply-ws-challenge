@@ -23,7 +23,8 @@ func NewService() *Service {
 }
 
 func (s *Service) SetRequestHandler(pattern string, handler IRequestHandler) *Service {
-	http.Handle(pattern, http.HandlerFunc(handler.Handle))
+	authCheckHandler := NewAuthCheckHandler(handler)
+	http.Handle(pattern, http.HandlerFunc(authCheckHandler.Handle))
 	return s
 }
 

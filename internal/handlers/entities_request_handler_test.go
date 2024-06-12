@@ -33,7 +33,7 @@ func TestHandleIncludeLastSet(t *testing.T) {
 			},
 		}, nil)
 
-	requestHandler := RequestHandler{
+	requestHandler := EntitiesRequestHandler{
 		dataProvider: mockDataProvider,
 	}
 
@@ -95,7 +95,7 @@ func TestHandleIncludeLastUnset(t *testing.T) {
 			},
 		}, nil)
 
-	requestHandler := RequestHandler{
+	requestHandler := EntitiesRequestHandler{
 		dataProvider: mockDataProvider,
 	}
 

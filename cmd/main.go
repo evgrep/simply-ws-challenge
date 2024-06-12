@@ -15,7 +15,7 @@ func main() {
 
 	dataProvider, _ := providers.NewSqliteDataProvider(os.Args[1])
 
-	requestHandler := handlers.NewRequestHandler(dataProvider)
+	requestHandler := handlers.NewEntitiesRequestHandler(dataProvider)
 
 	apiService := middleware.NewService().
 		SetRequestHandler("/entities", requestHandler)

@@ -9,17 +9,17 @@ import (
 	"unsafe"
 )
 
-type RequestHandler struct {
+type EntitiesRequestHandler struct {
 	dataProvider contract.DataProviderInt
 }
 
-func NewRequestHandler(dataProvider contract.DataProviderInt) *RequestHandler {
-	requestHandler := &RequestHandler{}
+func NewEntitiesRequestHandler(dataProvider contract.DataProviderInt) *EntitiesRequestHandler {
+	requestHandler := &EntitiesRequestHandler{}
 	requestHandler.dataProvider = dataProvider
 	return requestHandler
 }
 
-func (rh *RequestHandler) Handle(w http.ResponseWriter, r *http.Request) {
+func (rh *EntitiesRequestHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		// we support only Get for /entities
 		http.NotFound(w, r)

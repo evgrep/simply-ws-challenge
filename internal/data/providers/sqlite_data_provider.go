@@ -44,7 +44,7 @@ func (s *SqliteDataProvider) GetEntities(params *contract.GetEntitiesDbParams) (
 		log.Printf("Error occurred while quering the database: %v ", err)
 	}
 
-	var data []contract.Entity
+	data := make([]contract.Entity, 0)
 	for rows.Next() {
 		entity := contract.Entity{}
 
