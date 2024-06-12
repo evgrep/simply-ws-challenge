@@ -60,7 +60,7 @@ func (rh *EntitiesRequestHandler) Handle(w http.ResponseWriter, r *http.Request)
 func toDBQueryParams(params *GetEntitiesRequestParams) *contract.GetEntitiesDbParams {
 	dbQueryParams := contract.GetEntitiesDbParams{}
 
-	// just copy byte to byte
+	// just copy byte to byte as the layout is the same
 	p1Slice := (*(*[unsafe.Sizeof(*params)]byte)(unsafe.Pointer(params)))[:]
 	p2Slice := (*(*[unsafe.Sizeof(dbQueryParams)]byte)(unsafe.Pointer(&dbQueryParams)))[:]
 	copy(p2Slice, p1Slice)
@@ -86,7 +86,7 @@ func NewGetEntitiesRequestParams() *GetEntitiesRequestParams {
 
 // ResponseWriter - for the purposes of testing to generate the mock for http/ResponseWriter
 //
-//go:generate mockery --dir=internal/handlers --name=ResponseWriter --case underscore --output mocks --outpkg=mocks --testonly=true
+//go:generate mockery --name=ResponseWriter --case underscore --output mocks --outpkg=mocks
 type ResponseWriter interface {
 	http.ResponseWriter
 }

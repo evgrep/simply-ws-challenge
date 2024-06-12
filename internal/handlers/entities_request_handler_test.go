@@ -22,14 +22,39 @@ func TestHandleIncludeLastSet(t *testing.T) {
 		Page:                1,
 	}
 
+	// simulate data provider GetEntities returning data
 	mockDataProvider.On("GetEntities", dbParams).
 		Once().
 		Return([]contract.Entity{
 			{
-				Name: "RIO",
+				Name:      "Rio Tinto",
+				Symbol:    "RIO",
+				Snowflake: 1,
+				Prices: []contract.LastPrice{
+					{
+						Date:  "2024-06-11",
+						Price: "122.91",
+					},
+					{
+						Date:  "2024-06-07",
+						Price: "125.31",
+					},
+				},
 			},
 			{
-				Name: "BHP",
+				Name:      "BHP Group Ltd",
+				Symbol:    "BHP",
+				Snowflake: 2,
+				Prices: []contract.LastPrice{
+					{
+						Date:  "2024-06-11",
+						Price: "43.74",
+					},
+					{
+						Date:  "2024-06-07",
+						Price: "44.53",
+					},
+				},
 			},
 		}, nil)
 
@@ -46,7 +71,7 @@ func TestHandleIncludeLastSet(t *testing.T) {
 
 	// create map
 	responseHeaders := http.Header{}
-	mockResponseWriter := mocks2.NewMyResponseWriter(t)
+	mockResponseWriter := mocks2.NewResponseWriter(t)
 	mockResponseWriter.
 		On("Header").
 		Return(responseHeaders).
@@ -54,8 +79,10 @@ func TestHandleIncludeLastSet(t *testing.T) {
 	mockResponseWriter.
 		On("WriteHeader", http.StatusOK)
 	mockResponseWriter.
-		On("Write", []byte("[{\"name\":\"RIO\",\"symbol\":\"\",\"snowflake\":0},"+
-			"{\"name\":\"BHP\",\"symbol\":\"\",\"snowflake\":0}]\n")).
+		On("Write", []byte("[{\"name\":\"Rio Tinto\",\"symbol\":\"RIO\",\"snowflake\":1,\"last_prices\":"+
+			"[{\"date\":\"2024-06-11\",\"price\":122.91},{\"date\":\"2024-06-07\",\"price\":125.31}]},{\"name\":\"BH"+
+			"P Group Ltd\",\"symbol\":\"BHP\",\"snowflake\":2,\"last_prices\":[{\"date\":\"2024-06-11\",\"price\":43"+
+			".74},{\"date\":\"2024-06-07\",\"price\":44.53}]}]\n")).
 		Return(0, nil)
 
 	// test it now
@@ -88,10 +115,14 @@ func TestHandleIncludeLastUnset(t *testing.T) {
 		Once().
 		Return([]contract.Entity{
 			{
-				Name: "RIO",
+				Name:      "Rio Tinto",
+				Symbol:    "RIO",
+				Snowflake: 1,
 			},
 			{
-				Name: "BHP",
+				Name:      "BHP Group Ltd",
+				Symbol:    "BHP",
+				Snowflake: 2,
 			},
 		}, nil)
 
@@ -106,7 +137,7 @@ func TestHandleIncludeLastUnset(t *testing.T) {
 
 	// create map
 	responseHeaders := http.Header{}
-	mockResponseWriter := mocks2.NewMyResponseWriter(t)
+	mockResponseWriter := mocks2.NewResponseWriter(t)
 	mockResponseWriter.
 		On("Header").
 		Return(responseHeaders).
@@ -114,7 +145,8 @@ func TestHandleIncludeLastUnset(t *testing.T) {
 	mockResponseWriter.
 		On("WriteHeader", http.StatusOK)
 	mockResponseWriter.
-		On("Write", []byte("[{\"name\":\"RIO\",\"symbol\":\"\",\"snowflake\":0},{\"name\":\"BHP\",\"symbol\":\"\",\"snowflake\":0}]\n")).
+		On("Write", []byte("[{\"name\":\"Rio Tinto\",\"symbol\":\"RIO\",\"snowflake\":1},{\"name\":"+
+			"\"BHP Group Ltd\",\"symbol\":\"BHP\",\"snowflake\":2}]\n")).
 		Return(0, nil)
 
 	// test it now
