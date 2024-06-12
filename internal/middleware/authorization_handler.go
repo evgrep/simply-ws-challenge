@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 	"strings"
 )
@@ -45,6 +46,7 @@ func (h *AuthCheckHandler) Handle(w http.ResponseWriter, r *http.Request) {
 		h.next.Handle(w, r)
 	} else {
 		w.WriteHeader(http.StatusNotImplemented)
-		w.Write([]byte{})
+		_, err := w.Write([]byte{})
+		log.Printf("Error occurred while writing the response: %v", err)
 	}
 }

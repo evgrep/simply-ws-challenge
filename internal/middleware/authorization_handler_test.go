@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -8,9 +9,10 @@ import (
 
 type TestRequestHandler struct{}
 
-func (h TestRequestHandler) Handle(w http.ResponseWriter, r *http.Request) {
+func (h TestRequestHandler) Handle(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("OK"))
+	_, err := w.Write([]byte("OK"))
+	require.NoError(&testing.T{}, err)
 }
 
 func TestAuthCheckHandlerHandle(t *testing.T) {
